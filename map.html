@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+    <head>
+    <title>Parks And Green Spaces</title>
+    <link rel="stylesheet"href="style.css">
+    <link rel="stylesheet"href="www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect"href="https://fonts.gstatic.com">
+    <link rel="stylesheet"href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&family=Roboto:wght@500&display=swap">
+    <meta name="viewport" content="initial-scale=1,maximum-scale,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-g1-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-g1-js/v3.1.2/mapbox-g1-js"></script>
+    
+    <style>
+       #map {position:absolute; top: 1; height: 60%; width: 60%; }
+ </style>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&family=Roboto:wght@500&display=swap">
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/Openlayers.js"></script>
+
+
+     <script>
+
+        const MY_TOKEN = "pk.eyJ1Ijoic2xhdm1hbm9mZmljaWFsIiYSI6ImNsc3N0ZW42MTBtd3kya3MwNGVmenRpenIifQ.NOJS3MSoNor63IaivwLxyw"
+
+      </script>
+    </head>
+    <body>
+        <div class="grid-container">
+    <header>
+
+        <span class="heading"><a href="Index.html">Parks And Green Spaces</a></span>
+        <form class="search" action="search.html">
+            <input name="searchterm" placeholder="Search.." type="text">
+        </form>
+       </header>
+      <nav class="w3-container w3-margin">
+        <button onclick="location.href='map.html'" class="w3-button w3-block w3-blue w3-margin-top">Find on Map</button>
+        <button onclick="location.href='type.html'" class="w3-button w3-block w3-blue w3-margin-top">Find by type</button>
+        <button onclick = "getLocation('map.html')">Find on Map</button>
+
+        </nav>
+        <main>
+
+            <div id = "map"></div>
+        </main>
+       </div>
+      <script>
+        // get query string parameters lat, Ion
+        var urlParams = new URLSearchParams(location.search);
+            var lat = urlParams.get('lat');
+            var Ion = urlParams.get('Ion');
+
+            mapboxgl.accessToken = MY_TOKEN;
+                    var map = new mapboxg1.Map({
+                        container: 'map' , // container ID
+                        center: [Ion,lat], // longitude, latitude
+                        zoom: 14 // zoom level
+                    });
+
+                    // Create marker and add it to the map.
+                    let marker = new mapboxgl.Marker().setLngLat([Ion,lat]).addTo(map);
+                </script>
+
+
+
+             </body>
+            </html>
