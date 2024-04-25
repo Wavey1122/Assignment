@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parks And Green Spaces Finder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&family=Roboto:wght@500&display=swap">
+    <script src="script.js"></script>
+
+    <script>
+        function outputTable(json) {
+            let element = document.getElementById("results");
+            let features = json.features;
+            for (let i = 0; i < features.length; i++) {
+                let tr = document.createElement('tr');
+                let a = features[i].attributes;
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+
+                td1.innerHTML = a.DWELLING_TYPE;
+                td2.innerHTML = a.PROPERTY_ADDRESS;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                element.appendChild(tr);
+            }
+        }
+
+        function search(string) {
+            let urlEncoded = encodeURIComponent(string);
+            let url = `https://maps2.bristol.gov.uk/server2/rest/services/est/11_and_property/MapServer/1/query?where=&text=${urlEncoded}&objectIds=&time=&timeRelation=esriTimeRelationOverlaps&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffSet=&geometryPrecision=&outSR=&halvingClause=&returnIdsOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&returnExtentOnly=false&sqlFormat=none&datumTransformation=&parameterValues=&rangeValues=&quantizationParamters=&featureEncoding=esriDefault&f=json`;
+
+            fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } })
+                .then(response => response.json())
+                .then(outputTable);
+        }
+    </script>
+</head>
+<body>
+<div class="grid-container">
+    <header>
+        <span class="heading"><a href="Index.html">Parks And Green Spaces Finder</a></span>
+        <form class="search" action="search.html">
+            <input name="searchterm" placeholder="Search.." type="text">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </header>
+    <nav class="w3-container w3-margin">
+        <button onclick="getLocation('map.html')" class="w3-button w3-block w3-blue w3-margin-top">Find on Map</button>
+        <button onclick="location.href='type.html'" class="w3-button w3-block w3-blue w3-margin-top">Find by type</button>
+        <button onclick="location.href='chart.html'" class="w3-button w3-block w3-blue w3-margin-top">Maintainers</button>
+    </nav>
+    <main>
+        <table class="w3-table  w3-bordered">
+            <thead>
+            <tr><th>Name</th><th>Type</th></tr>
+            </thead>
+            <tbody id="results">
+            </tbody>
+        </table>
+        <script>
+            let urlParams = new URLSearchParams(location.search);
+            let searchTerm = urlParams.get('searchterm');
+            if (searchTerm) {
+                search(searchTerm);
+            }
+        </script>
+    </main>
+</div>
+</body>
+</html>
